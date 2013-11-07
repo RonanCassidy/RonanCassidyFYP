@@ -1,6 +1,0 @@
-C:\Users\Cassidy\Desktop\KinectYourBody\KinectYourBody\bin\x86\Debug\KinectYourBody.exe
-C:\Users\Cassidy\Desktop\KinectYourBody\KinectYourBody\bin\x86\Debug\KinectYourBody.pdb
-C:\Users\Cassidy\Desktop\KinectYourBody\KinectYourBody\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Cassidy\Desktop\KinectYourBody\KinectYourBody\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\Cassidy\Desktop\KinectYourBody\KinectYourBody\obj\x86\Debug\KinectYourBody.exe
-C:\Users\Cassidy\Desktop\KinectYourBody\KinectYourBody\obj\x86\Debug\KinectYourBody.pdb
