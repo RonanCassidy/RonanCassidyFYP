@@ -1,0 +1,2 @@
+C:\Users\Cassidy\Desktop\KinectYourBody\KinectYourBodyContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBodyContent\obj\x86\Debug\ResolveAssemblyReference.cache
