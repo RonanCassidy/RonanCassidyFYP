@@ -10,3 +10,4 @@ C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBod
 C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\obj\x86\Debug\KinectYourBody.exe
 C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\obj\x86\Debug\KinectYourBody.pdb
+C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\bin\x86\Debug\Content\joint.xnb

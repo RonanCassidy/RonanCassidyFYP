@@ -49,6 +49,8 @@ namespace KinectYourBody
             kinect = KinectSensor.KinectSensors[0];
             kinect.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
             kinect.DepthStream.Enable(DepthImageFormat.Resolution320x240Fps30);
+           
+            
             kinect.SkeletonStream.Enable();
             kinect.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(kinect_AllFramesReady);
 
@@ -67,7 +69,7 @@ namespace KinectYourBody
 
             kinect.ElevationAngle = 20;
 
-            //jointTexture = Content.Load<Texture2D>("joint");
+            jointTexture = Content.Load<Texture2D>("joint");
           
         }
 
@@ -102,8 +104,9 @@ namespace KinectYourBody
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(colorVideo, new Rectangle(0, 0, colorVideo.Width, colorVideo.Height), Color.White);
-            spriteBatch.Draw(depthVideo, new Rectangle(640, 0, colorVideo.Width, colorVideo.Height), Color.White);
+            spriteBatch.Draw(colorVideo, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
+            //spriteBatch.Draw(depthVideo, new Rectangle(640, 0, colorVideo.Width, colorVideo.Height), Color.White);
+            DrawSkeleton(spriteBatch, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), jointTexture);
             
             spriteBatch.End();
 
@@ -136,6 +139,33 @@ namespace KinectYourBody
                 colorVideo = new Texture2D(graphics.GraphicsDevice, colorVideoFrame.Width, colorVideoFrame.Height);
                 colorVideo.SetData(bgraPixelData);
             }
+
+            //
+            // Skeleton Frame
+            //
+            using (SkeletonFrame skeletonFrame = imageFrames.OpenSkeletonFrame())
+            {
+                if (skeletonFrame != null)
+                {
+                    if ((skeletonData == null) || (this.skeletonData.Length != skeletonFrame.SkeletonArrayLength))
+                    {
+                        this.skeletonData = new Skeleton[skeletonFrame.SkeletonArrayLength];
+                    }
+
+                    //Copy the skeleton data to our array
+                    skeletonFrame.CopySkeletonDataTo(this.skeletonData);
+                }
+             }
+            if (skeletonData != null)
+            {
+                foreach (Skeleton skel in skeletonData)
+                {
+                    if (skel.TrackingState == SkeletonTrackingState.Tracked)
+                    {
+                        skeleton = skel;
+                    }
+                }
+            }
         
         
             DepthImageFrame depthVideoFrame = imageFrames.OpenDepthImageFrame();
@@ -149,7 +179,17 @@ namespace KinectYourBody
                 depthVideo.SetData(ConvertDepthFrame(pixelData, kinect.DepthStream));
               }
         }
-
+        private void DrawSkeleton(SpriteBatch spriteBatch, Vector2 resolution, Texture2D img)
+        {
+            if (skeleton != null)
+            {
+                foreach (Joint joint in skeleton.Joints)
+                {
+                    Vector2 position = new Vector2((((0.5f * joint.Position.X) + 0.5f) * (resolution.X)), (((-0.5f * joint.Position.Y) + 0.5f) * (resolution.Y)));
+                    spriteBatch.Draw(img, new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), 10, 10), Color.Red);
+                }
+            }
+        }
         private byte[] ConvertDepthFrame(short[] depthFrame, DepthImageStream depthStream)
         {
             int RedIndex = 0, GreenIndex = 1, BlueIndex = 2, AlphaIndex = 3;
