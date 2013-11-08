@@ -33,6 +33,14 @@ namespace KinectYourBody
         int rightHits;
         bool hit;
         SpriteFont Font1;
+        int counter;
+        int limit;
+        float countDuration; //every  2s.
+        float currentTime;
+
+
+
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -82,6 +90,11 @@ namespace KinectYourBody
             hit = false;
             leftHits = 0;
             rightHits = 0;
+            counter = 50;
+            limit = 1;
+            countDuration = 2f; //every  2s.
+            currentTime = 0f;
+
         }
 
         
@@ -102,7 +115,14 @@ namespace KinectYourBody
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
+            if (currentTime >= countDuration)
+            {
+                counter--;
+                currentTime -= countDuration;                 
+            }
+            
+           
             base.Update(gameTime);
         }
 
@@ -119,6 +139,7 @@ namespace KinectYourBody
             //spriteBatch.Draw(depthVideo, new Rectangle(640, 0, colorVideo.Width, colorVideo.Height), Color.White);
             DrawSkeleton(spriteBatch, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
             CheckStuff(spriteBatch);
+            DisplayTime(counter);
            // spriteBatch.Draw(starTexture, new Rectangle(50,200,64,64),Color.White);
             spriteBatch.End();
 
@@ -191,6 +212,11 @@ namespace KinectYourBody
                 depthVideo.SetData(ConvertDepthFrame(pixelData, kinect.DepthStream));
               }
         }
+        private void DisplayTime(int counter)
+        {
+            spriteBatch.DrawString(Font1, "Time Remaining:", new Vector2(1000, 10), Color.White);    
+            spriteBatch.DrawString(Font1, counter.ToString(), new Vector2(1150, 10), Color.White);
+        }
         private void CheckStuff(SpriteBatch spriteBatch)
         {
 
@@ -216,14 +242,14 @@ namespace KinectYourBody
 
                     //////////BOXING//////////////
                     //////////Right//////////////
-                    if (skeleton.Joints[JointType.HandRight].Position.Z > skeleton.Joints[JointType.HandLeft].Position.Z && hit == false )
+                    if (skeleton.Joints[JointType.HandRight].Position.Z > skeleton.Joints[JointType.HandLeft].Position.Z && hit == false && counter > 1)
                     {
                         rightHits++;
                         spriteBatch.Draw(starTexture, new Rectangle(50, 300, 64, 64), Color.White);
                         hit = true;
                     }
                     //////////Left/////////////
-                    else if (skeleton.Joints[JointType.HandRight].Position.Z < skeleton.Joints[JointType.HandLeft].Position.Z && hit == true)
+                    else if (skeleton.Joints[JointType.HandRight].Position.Z < skeleton.Joints[JointType.HandLeft].Position.Z && hit == true && counter > 1)
                     {
                         leftHits++;
                         spriteBatch.Draw(starTexture, new Rectangle(1000, 300, 64, 64), Color.White);
