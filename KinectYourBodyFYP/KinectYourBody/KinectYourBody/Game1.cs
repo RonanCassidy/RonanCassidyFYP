@@ -24,10 +24,15 @@ namespace KinectYourBody
         SpriteBatch spriteBatch;
 
         KinectSensor kinect;
-        Texture2D colorVideo, depthVideo, jointTexture;
+        Texture2D colorVideo, depthVideo, jointTexture, starTexture, faceTexture, handTexture;
 
         Skeleton[] skeletonData;
         Skeleton skeleton;
+
+        int leftHits;
+        int rightHits;
+        bool hit;
+        SpriteFont Font1;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -70,7 +75,13 @@ namespace KinectYourBody
             kinect.ElevationAngle = 20;
 
             jointTexture = Content.Load<Texture2D>("joint");
-          
+            starTexture = Content.Load<Texture2D>("star");
+            faceTexture = Content.Load<Texture2D>("face");
+            handTexture = Content.Load<Texture2D>("hand");
+            Font1 = Content.Load<SpriteFont>("font1");
+            hit = false;
+            leftHits = 0;
+            rightHits = 0;
         }
 
         
@@ -106,8 +117,9 @@ namespace KinectYourBody
             spriteBatch.Begin();
             spriteBatch.Draw(colorVideo, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             //spriteBatch.Draw(depthVideo, new Rectangle(640, 0, colorVideo.Width, colorVideo.Height), Color.White);
-            DrawSkeleton(spriteBatch, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), jointTexture);
-            
+            DrawSkeleton(spriteBatch, new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
+            CheckStuff(spriteBatch);
+           // spriteBatch.Draw(starTexture, new Rectangle(50,200,64,64),Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -179,14 +191,71 @@ namespace KinectYourBody
                 depthVideo.SetData(ConvertDepthFrame(pixelData, kinect.DepthStream));
               }
         }
-        private void DrawSkeleton(SpriteBatch spriteBatch, Vector2 resolution, Texture2D img)
+        private void CheckStuff(SpriteBatch spriteBatch)
+        {
+
+            if (skeleton != null)
+            {
+                spriteBatch.DrawString(Font1, "Hits With Right", new Vector2(10, 10), Color.White);
+                spriteBatch.DrawString(Font1, rightHits.ToString(), new Vector2(200, 10), Color.White);
+
+
+                spriteBatch.DrawString(Font1, "Hits With Left", new Vector2(10, 50), Color.White);
+                spriteBatch.DrawString(Font1, leftHits.ToString(), new Vector2(200, 50), Color.White);
+             
+                foreach (Joint joint in skeleton.Joints)
+                {
+                    if (skeleton.Joints[JointType.KneeRight].Position.Y > skeleton.Joints[JointType.KneeLeft].Position.Y )
+                    {
+                        spriteBatch.Draw(starTexture, new Rectangle(50, 200, 64, 64), Color.White);
+                    }
+                    if (skeleton.Joints[JointType.Head].Position.Y < skeleton.Joints[JointType.HandRight].Position.Y )
+                    {
+                        spriteBatch.Draw(starTexture, new Rectangle(50, 300, 64, 64), Color.White);
+                    }
+
+                    //////////BOXING//////////////
+                    //////////Right//////////////
+                    if (skeleton.Joints[JointType.HandRight].Position.Z > skeleton.Joints[JointType.HandLeft].Position.Z && hit == false )
+                    {
+                        rightHits++;
+                        spriteBatch.Draw(starTexture, new Rectangle(50, 300, 64, 64), Color.White);
+                        hit = true;
+                    }
+                    //////////Left/////////////
+                    else if (skeleton.Joints[JointType.HandRight].Position.Z < skeleton.Joints[JointType.HandLeft].Position.Z && hit == true)
+                    {
+                        leftHits++;
+                        spriteBatch.Draw(starTexture, new Rectangle(1000, 300, 64, 64), Color.White);
+                        hit = false;
+                    }
+
+
+                }
+            }
+        }
+        private void DrawSkeleton(SpriteBatch spriteBatch, Vector2 resolution)
         {
             if (skeleton != null)
             {
                 foreach (Joint joint in skeleton.Joints)
                 {
-                    Vector2 position = new Vector2((((0.5f * joint.Position.X) + 0.5f) * (resolution.X)), (((-0.5f * joint.Position.Y) + 0.5f) * (resolution.Y)));
-                    spriteBatch.Draw(img, new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), 10, 10), Color.Red);
+                    if(joint == skeleton.Joints[JointType.Head])
+                    {
+                        Vector2 position = new Vector2((((0.5f * joint.Position.X) + 0.5f) * (resolution.X)) - 32, (((-0.5f * joint.Position.Y) + 0.5f) * (resolution.Y)) - 32);
+                        spriteBatch.Draw(faceTexture, new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), 64, 64), Color.White);
+                    }
+                    if (joint == skeleton.Joints[JointType.HandRight] || joint == skeleton.Joints[JointType.HandLeft])
+                    {
+                        Vector2 position = new Vector2((((0.5f * joint.Position.X) + 0.5f) * (resolution.X))-64, (((-0.5f * joint.Position.Y) + 0.5f) * (resolution.Y))-64);
+                        spriteBatch.Draw(handTexture, new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), 128, 128), Color.White);
+                    }
+                    if (joint != skeleton.Joints[JointType.HandRight] && joint != skeleton.Joints[JointType.HandLeft] && joint != skeleton.Joints[JointType.Head])
+                    {
+                        Vector2 position = new Vector2((((0.5f * joint.Position.X) + 0.5f) * (resolution.X)), (((-0.5f * joint.Position.Y) + 0.5f) * (resolution.Y)));
+                        spriteBatch.Draw(jointTexture, new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), 10, 10), Color.Red);
+               
+                    }
                 }
             }
         }

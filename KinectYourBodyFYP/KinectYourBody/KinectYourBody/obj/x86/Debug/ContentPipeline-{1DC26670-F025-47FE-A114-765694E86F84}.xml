@@ -10,6 +10,42 @@
       <Output>C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\bin\x86\Debug\Content\joint.xnb</Output>
       <Time>2011-12-28T15:22:10+00:00</Time>
     </Item>
+    <Item>
+      <Source>star.png</Source>
+      <Name>star</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\bin\x86\Debug\Content\star.xnb</Output>
+      <Time>2013-11-08T01:45:11.3243733+00:00</Time>
+    </Item>
+    <Item>
+      <Source>face.png</Source>
+      <Name>face</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\bin\x86\Debug\Content\face.xnb</Output>
+      <Time>2013-11-08T02:37:57.6504768+00:00</Time>
+    </Item>
+    <Item>
+      <Source>hand.png</Source>
+      <Name>hand</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\bin\x86\Debug\Content\hand.xnb</Output>
+      <Time>2013-11-08T02:43:11.0954048+00:00</Time>
+    </Item>
+    <Item>
+      <Source>font1.spritefont</Source>
+      <Name>font1</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Cassidy\RonanCassidyFYP\RonanCassidyFYP\KinectYourBodyFYP\KinectYourBody\KinectYourBody\bin\x86\Debug\Content\font1.xnb</Output>
+      <Time>2013-11-08T04:43:33.1414823+00:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{1DC26670-F025-47FE-A114-765694E86F84}</ContentProjectGUID>
